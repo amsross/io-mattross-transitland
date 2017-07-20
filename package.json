@@ -1,0 +1,27 @@
+{
+  "name": "io-mattross-transitland",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/tape *.spec.js handlers/*.spec.js | ./node_modules/.bin/tap-spec",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fuse.js": "^3.0.5",
+    "highland": "^2.11.1",
+    "ramda": "^0.24.1",
+    "request": "^2.81.0",
+    "restify": "^5.0.1",
+    "restify-errors": "^4.3.0"
+  },
+  "devDependencies": {
+    "nock": "^9.0.14",
+    "nodemon": "^1.11.0",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.7.0"
+  }
+}
