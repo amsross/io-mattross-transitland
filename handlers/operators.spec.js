@@ -33,7 +33,7 @@ test('handlers/operators', assert => {
     ['VTA', {onestop_id: 'o-9q9-vta'}, 'direct match, 2nd page'],
     ['Contra Costa Transit', {onestop_id: 'o-9q9-actransit'}, 'close match 2nd page'],
     ['PATH', {onestop_id: 'o-dr5r-path'}, 'direct match, 3rd page'],
-    ['qwerty123456', {message: 'match not found in operators'}, 'should 404'],
+    ['qwerty123456', {message: 'match for qwerty123456 was not found in operators'}, 'should 404'],
   ])
     .map(operator => unit({})(operator[0])
       .errors((err, push) => push(null, err))

@@ -19,16 +19,22 @@ module.exports.next = function next(params) {
   }
 
   return operators(options)(params.ON)
-    .flatMap(stops(options)(params.FROM))
-    .flatMap(schedules(options))
-    .collect()
-    .flatMap(params.TO ? r.pipe(
-      r.construct(F)(r.__, fuseConfig),
-      r.invoker(1, "search")(params.TO)) : r.identity)
-    .sortBy((a, b) => {
-      const one = m(a.origin_departure_time, 'hh:mma')
-      const two = m(b.origin_departure_time, 'hh:mma')
-      return one.diff(two)
-    })
-    .take(5)
+    .flatMap(operator => stops(options)(params.FROM)(operator)
+      .flatMap(stop => schedules(options)(stop)
+        .collect()
+        .flatMap(params.TO ? r.pipe(
+          r.construct(F)(r.__, fuseConfig),
+          r.invoker(1, "search")(params.TO)) : r.identity)
+        .sortBy((a, b) => {
+          const one = m(a.origin_departure_time, 'hh:mma')
+          const two = m(b.origin_departure_time, 'hh:mma')
+          return one.diff(two)
+        })
+        .take(5)
+        .collect()
+        .map(schedules => ({
+          operator_name: operator.short_name || operator.name,
+          stop_name: stop.short_name || stop.name,
+          schedules: schedules || [],
+        }))))
 }

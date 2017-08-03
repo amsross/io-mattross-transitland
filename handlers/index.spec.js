@@ -49,29 +49,35 @@ test('handlers/index', assert => {
       .reply(200, responses[2])
 
     h([{
-      on: 'patco',
-      from: 'haddonfield'
+      ON: 'patco',
+      FROM: 'haddonfield'
     }, {
-      on: 'patco',
-      from: 'haddonfield',
-      to: 'philadelphia'
+      ON: 'patco',
+      FROM: 'haddonfield',
+      TO: 'philadelphia'
     }, {
-      on: 'patco',
-      from: 'haddonfield',
-      to: 'lindenwold'
+      ON: 'patco',
+      FROM: 'haddonfield',
+      TO: 'lindenwold'
     }])
       .flatMap(params => unit.next(params))
       .collect()
       .tap(results => {
-        assert.deepEqual(results[0], {trip_headsign: 'Philadelphia', origin_departure_time: '07:04am'}, 'first trip: westbound')
-        assert.deepEqual(results[1], {trip_headsign: 'Philadelphia', origin_departure_time: '07:09am'}, 'second trip: westbound')
-        assert.deepEqual(results[2], {trip_headsign: 'Lindenwold', origin_departure_time: '07:10am'}, 'first trip: eastbound')
+        assert.equal(results[0].operator_name, 'PATCO')
+        assert.equal(results[0].stop_name, 'Haddonfield')
+        assert.deepEqual(results[0].schedules[0], {trip_headsign: 'Philadelphia', origin_departure_time: '07:04am'}, 'first trip: westbound')
+        assert.deepEqual(results[0].schedules[1], {trip_headsign: 'Philadelphia', origin_departure_time: '07:09am'}, 'second trip: westbound')
+        assert.deepEqual(results[0].schedules[2], {trip_headsign: 'Lindenwold', origin_departure_time: '07:10am'}, 'first trip: eastbound')
 
-        assert.deepEqual(results[3], {trip_headsign: 'Philadelphia', origin_departure_time: '07:04am'}, 'first trip: westbound')
-        assert.deepEqual(results[4], {trip_headsign: 'Philadelphia', origin_departure_time: '07:09am'}, 'second trip: westbound')
+        assert.equal(results[1].operator_name, 'PATCO')
+        assert.equal(results[1].stop_name, 'Haddonfield')
+        assert.deepEqual(results[1].schedules[0], {trip_headsign: 'Philadelphia', origin_departure_time: '07:04am'}, 'first trip: westbound')
+        assert.deepEqual(results[1].schedules[1], {trip_headsign: 'Philadelphia', origin_departure_time: '07:09am'}, 'second trip: westbound')
 
-        assert.deepEqual(results[5], {trip_headsign: 'Lindenwold', origin_departure_time: '07:10am'}, 'first trip: eastbound')
+        assert.deepEqual(results[2].schedules[0], {trip_headsign: 'Lindenwold', origin_departure_time: '07:10am'}, 'first trip: eastbound')
       })
+      .collect()
+      .tap(xs => assert.ok(xs.length, 'got responses'))
       .done(() => {
         nock.cleanAll()
         clock.restore()
