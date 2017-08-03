@@ -47,12 +47,12 @@ alexaApp.intent('trainIntent', {
       r.identity)(res)
   }))
 
-app.get('/next/:on/:from/:to', (req, res, next) => handlers.next(req.params)
+app.get('/next/:ON/:FROM/:TO', (req, res, next) => handlers.next(req.params)
   .collect()
   .tap(json => res.json(json))
   .toCallback(err => next(err)))
 
-app.get('/next/:on/:from', (req, res, next) => handlers.next(req.params)
+app.get('/next/:ON/:FROM', (req, res, next) => handlers.next(req.params)
   .collect()
   .tap(json => res.json(json))
   .toCallback(err => next(err)))
