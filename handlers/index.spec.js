@@ -60,8 +60,7 @@ test('handlers/index', assert => {
       from: 'haddonfield',
       to: 'lindenwold'
     }])
-      .map(params => ({params: params}))
-      .flatMap(req => unit.next(req))
+      .flatMap(params => unit.next(params))
       .collect()
       .tap(results => {
         assert.deepEqual(results[0], {trip_headsign: 'Philadelphia', origin_departure_time: '07:04am'}, 'first trip: westbound')

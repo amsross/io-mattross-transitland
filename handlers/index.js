@@ -8,7 +8,7 @@ const operators = require('./operators')
 const stops = require('./stops')
 const schedules = require('./schedules')
 
-module.exports.next = function next(req) {
+module.exports.next = function next(params) {
 
   const options = {}
   const fuseConfig = {
@@ -18,13 +18,13 @@ module.exports.next = function next(req) {
     ]
   }
 
-  return operators(options)(req.params.on)
-    .flatMap(stops(options)(req.params.from))
+  return operators(options)(params.ON)
+    .flatMap(stops(options)(params.FROM))
     .flatMap(schedules(options))
     .collect()
-    .flatMap(req.params.to ? r.pipe(
+    .flatMap(params.TO ? r.pipe(
       r.construct(F)(r.__, fuseConfig),
-      r.invoker(1, "search")(req.params.to)) : r.identity)
+      r.invoker(1, "search")(params.TO)) : r.identity)
     .sortBy((a, b) => {
       const one = m(a.origin_departure_time, 'hh:mma')
       const two = m(b.origin_departure_time, 'hh:mma')
