@@ -19,4 +19,4 @@ function respond(fn) {
 server.get('/next/:on/:from/:to', respond(handlers.next))
 server.get('/next/:on/:from', respond(handlers.next))
 
-server.listen(8080, () => console.log('%s listening at %s', server.name, server.url))
+server.listen(process.env.PORT || 8080, () => console.log('%s listening at %s', server.name, server.url))
