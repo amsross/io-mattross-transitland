@@ -35,13 +35,13 @@ alexaApp.intent('trainIntent', {
     'next train on {-|ON} from {-|FROM}',
     'next train on {-|ON} from {-|FROM} to {-|TO}'
   ]
-}, (req, res) => handlers.next({
+}, (req, res) => handlers.next(req, {
   ON: req.slot('ON'),
   FROM: req.slot('FROM'),
   TO: req.slot('TO')
 })
   .collect()
-  .toCallback((err, res) => {
+  .toCallback((err, results) => {
     if (err) return res.say(err.message)
     return r.compose(
       x => res.say(x),
@@ -53,15 +53,15 @@ alexaApp.intent('trainIntent', {
           r.map(schedule => `${schedule.origin_departure_time} to ${schedule.trip_headsign}`),
           r.join(', '))
       }),
-      r.identity)(res)
+      r.identity)(results)
   }))
 
-app.get('/next/:ON/:FROM/:TO', (req, res, next) => handlers.next(req.params)
+app.get('/next/:ON/:FROM/:TO', (req, res, next) => handlers.next(req, req.params)
   .collect()
   .tap(json => res.json(json))
   .toCallback(err => next(err)))
 
-app.get('/next/:ON/:FROM', (req, res, next) => handlers.next(req.params)
+app.get('/next/:ON/:FROM', (req, res, next) => handlers.next(req, req.params)
   .collect()
   .tap(json => res.json(json))
   .toCallback(err => next(err)))

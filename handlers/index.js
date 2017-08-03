@@ -8,7 +8,7 @@ const operators = require('./operators')
 const stops = require('./stops')
 const schedules = require('./schedules')
 
-module.exports.next = function next(params) {
+module.exports.next = function next(req, params) {
 
   const options = {}
   const fuseConfig = {
@@ -17,6 +17,7 @@ module.exports.next = function next(params) {
       { name: 'trip_headsign', weight: 0.7 }
     ]
   }
+  req.log.info(params)
 
   return operators(options)(params.ON)
     .flatMap(operator => stops(options)(params.FROM)(operator)
