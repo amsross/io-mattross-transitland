@@ -36,7 +36,7 @@ alexaApp.intent('trainIntent', {
     if (err) return res.say(err.message)
     return r.compose(
       x => res.say(x),
-      obj => return `The next trains on ${obj.operator_name} from ${obj.stop_name}` +
+      obj => `The next trains on ${obj.operator_name} from ${obj.stop_name}` +
         (req.slot('TO') ? ` to ${req.slot('TO')}` : ``) +
         ` are ${obj.schedules}`,
       r.evolve({
