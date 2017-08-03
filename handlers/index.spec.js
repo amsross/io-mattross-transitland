@@ -18,6 +18,7 @@ test('handlers/index', assert => {
         offset: 0,
         per_page: 50,
       })
+      .thrice()
       .reply(200, responses[0])
 
     nock('https://transit.land')
@@ -30,6 +31,7 @@ test('handlers/index', assert => {
         served_by_vehicle_types: 'rail',
         served_by: 'o-dr4e-portauthoritytransitcorporation'
       })
+      .thrice()
       .reply(200, responses[1])
 
     nock('https://transit.land')
@@ -43,11 +45,20 @@ test('handlers/index', assert => {
         origin_departure_between: '07:00,23:59',
         date: '2017-09-26',
       })
+      .thrice()
       .reply(200, responses[2])
 
     h([{
       on: 'patco',
       from: 'haddonfield'
+    }, {
+      on: 'patco',
+      from: 'haddonfield',
+      to: 'philadelphia'
+    }, {
+      on: 'patco',
+      from: 'haddonfield',
+      to: 'lindenwold'
     }])
       .map(params => ({params: params}))
       .flatMap(req => unit.next(req))
@@ -56,6 +67,11 @@ test('handlers/index', assert => {
         assert.deepEqual(results[0], {trip_headsign: 'Philadelphia', origin_departure_time: '07:04am'}, 'first trip: westbound')
         assert.deepEqual(results[1], {trip_headsign: 'Philadelphia', origin_departure_time: '07:09am'}, 'second trip: westbound')
         assert.deepEqual(results[2], {trip_headsign: 'Lindenwold', origin_departure_time: '07:10am'}, 'first trip: eastbound')
+
+        assert.deepEqual(results[3], {trip_headsign: 'Philadelphia', origin_departure_time: '07:04am'}, 'first trip: westbound')
+        assert.deepEqual(results[4], {trip_headsign: 'Philadelphia', origin_departure_time: '07:09am'}, 'second trip: westbound')
+
+        assert.deepEqual(results[5], {trip_headsign: 'Lindenwold', origin_departure_time: '07:10am'}, 'first trip: eastbound')
       })
       .done(() => {
         nock.cleanAll()
