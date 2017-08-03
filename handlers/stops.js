@@ -22,5 +22,5 @@ module.exports = function(options) {
     .compact()
     .flatMap(matchAgainst(fuseConfig)(getStops(operator))(stop)('stops'))
 
-  return stop => operator => getStops(operator)(stop)(baseUrl)
+  return stop => operator => getStops(r.prop('onestop_id', operator))(stop)(baseUrl)
 }
