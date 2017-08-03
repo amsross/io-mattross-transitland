@@ -5,7 +5,7 @@ const m = require('moment-timezone')
 const r = require('ramda')
 const { get, matchAgainst, mutateUrl } = require('./utils')
 
-const baseUrl = url.parse('https://transit.land/api/v1/schedule_stop_pairs?offset=0&per_page=50&sort_key=origin_arrival_time&sort_order=asc&origin_onestop_id=foo&origin_departure_between=foo&date=foo', true)
+const baseUrl = url.parse('https://transit.land/api/v1/schedule_stop_pairs?offset=0&per_page=50&sort_key=origin_departure_time&sort_order=asc&origin_onestop_id=foo&origin_departure_between=foo&date=foo', true)
 
 module.exports = function(options) {
 

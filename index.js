@@ -8,6 +8,10 @@ function respond(fn) {
     return fn(req)
       .collect()
       .tap(json => res.json(json))
+      .errors((err, push) => {
+        console.error(err)
+        push(err)
+      })
       .toCallback(err => next(err))
   }
 }

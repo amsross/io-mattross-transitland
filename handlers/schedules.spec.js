@@ -13,7 +13,7 @@ test('handlers/schedules', assert => {
   const params = {
     offset: 0,
     per_page: 50,
-    sort_key: 'origin_arrival_time',
+    sort_key: 'origin_departure_time',
     sort_order: 'asc',
     origin_onestop_id: 's-dr4durps7v-haddonfield',
     origin_departure_between: '07:00,23:59',
@@ -86,13 +86,13 @@ const responses = [{
     'destination_arrival_time': '07:13:00',
   }],
   'meta': {
-    'sort_key': 'origin_arrival_time',
+    'sort_key': 'origin_departure_time',
     'sort_order': 'asc',
     'offset': 0,
     'per_page': 50,
     'origin_onestop_id': 's-dr4durps7v-haddonfield',
     'origin_departure_between': '07:00,23:59',
     'date': '2017-09-26',
-    'next': 'https://transit.land/api/v1/schedule_stop_pairs?date=2017-09-26&offset=0&origin_onestop_id=s-dr4durps7v-haddonfield&per_page=50&sort_key=origin_arrival_time&sort_order=asc'
+    'next': 'https://transit.land/api/v1/schedule_stop_pairs?date=2017-09-26&offset=0&origin_onestop_id=s-dr4durps7v-haddonfield&per_page=50&sort_key=origin_departure_time&sort_order=asc'
   }
 }]

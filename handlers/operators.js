@@ -23,4 +23,5 @@ module.exports = function(options) {
     .flatMap(matchAgainst(fuseConfig)(getOperators)(operator)('operators'))
 
   return operator => getOperators(operator)(baseUrl)
+    .take(1)
 }
