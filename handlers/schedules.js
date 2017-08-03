@@ -35,7 +35,6 @@ module.exports = function(options) {
   return stop => getSchedules(stop)(baseUrl)
     .map(r.prop('schedule_stop_pairs'))
     .flatten()
-    .take(5)
     .map(r.applySpec({
       'trip_headsign': r.prop('trip_headsign'),
       'origin_departure_time': schedule => {
