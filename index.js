@@ -2,11 +2,20 @@
 const r = require('ramda')
 const express = require('express')
 const alexa = require('alexa-app')
+const bunyan = require('bunyan')
+const bunyanMiddleware = require('bunyan-middleware')
 const handlers = require('./handlers')
 
 const app = express()
 const alexaApp = new alexa.app(process.env.APP_NAME || 'alexa');
+const logger = bunyan.createLogger({name: process.env.APP_NAME || 'alexa'})
 
+app.use(bunyanMiddleware({
+  headerName: 'X-Request-Id',
+  propertyName: 'reqId',
+  logName: 'req_id',
+  logger: logger,
+})
 app.set('view engine', 'ejs')
 alexaApp.express({
   endpoint: 'alexa',
