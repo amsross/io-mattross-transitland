@@ -12,8 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "alexa-app": "^4.0.1",
-    "bunyan": "^1.8.12",
-    "bunyan-middleware": "^0.8.0",
     "ejs": "^2.5.7",
     "express": "^4.15.3",
     "fuse.js": "^3.0.5",
