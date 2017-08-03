@@ -15,7 +15,10 @@ test('handlers/operators', assert => {
     sort_order: 'asc'
   }
 
-  r.map(offset => nockRepeater(responses)(nock('https://transit.land').get('/api/v1/operators'))(r.evolve({
+  const nockGet = () => nock('https://transit.land')
+    .get('/api/v1/operators')
+
+  r.map(offset => nockRepeater(responses)(nockGet())(r.evolve({
     offset: r.always(offset),
   })(params)))([
     0, 50,
@@ -30,7 +33,7 @@ test('handlers/operators', assert => {
     ['VTA', {onestop_id: 'o-9q9-vta'}, 'direct match, 2nd page'],
     ['Contra Costa Transit', {onestop_id: 'o-9q9-actransit'}, 'close match 2nd page'],
     ['PATH', {onestop_id: 'o-dr5r-path'}, 'direct match, 3rd page'],
-    ['qwerty123456', {message: 'operator not found'}, 'should 404'],
+    ['qwerty123456', {message: 'match not found in operators'}, 'should 404'],
   ])
     .map(operator => unit({})(operator[0])
       .errors((err, push) => push(null, err))

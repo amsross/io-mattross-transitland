@@ -1,16 +1,9 @@
 'use strict'
 const url = require('url')
-const F = require('fuse.js')
 const h = require('highland')
 const r = require('ramda')
-const q = require('request')
-const errors = require('restify-errors')
-const utils = require('./utils')
+const { get, matchAgainst, mutateUrl } = require('./utils')
 
-const get = url => {
-  return h.wrapCallback(q.get, (err, body, res) => body)(url)
-    .map(JSON.parse)
-}
 const baseUrl = url.parse('https://transit.land/api/v1/operators?offset=0&per_page=50&sort_key=id&sort_order=asc', true)
 
 module.exports = function(options) {
@@ -24,20 +17,10 @@ module.exports = function(options) {
   }
 
   const getOperators = operator => url => h.of(url)
-    .map(utils.mutateUrl)
+    .map(mutateUrl)
     .flatMap(get)
     .compact()
-    .flatMap(response => {
-      return h.of(response)
-        .map(r.prop('operators'))
-        .flatMap(r.pipe(
-          r.construct(F)(r.__, fuseConfig),
-          r.invoker(1, "search")(operator)))
-        .otherwise(() => {
-          if (!response.meta.next) return h.fromError(new errors.NotFoundError('operator not found'))
-          return getOperators(operator)(url.parse(response.meta.next, true))
-        })
-    })
+    .flatMap(matchAgainst(fuseConfig)(getOperators)(operator)('operators'))
 
   return operator => getOperators(operator)(baseUrl)
 }

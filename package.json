@@ -13,6 +13,7 @@
   "dependencies": {
     "fuse.js": "^3.0.5",
     "highland": "^2.11.1",
+    "moment-timezone": "^0.5.13",
     "ramda": "^0.24.1",
     "request": "^2.81.0",
     "restify": "^5.0.1",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "nock": "^9.0.14",
     "nodemon": "^1.11.0",
+    "sinon": "^2.3.8",
     "tap-spec": "^4.1.1",
     "tape": "^4.7.0"
   }
