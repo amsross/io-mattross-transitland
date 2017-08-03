@@ -15,7 +15,7 @@ app.use(bunyanMiddleware({
   propertyName: 'reqId',
   logName: 'req_id',
   logger: logger,
-})
+}))
 app.set('view engine', 'ejs')
 alexaApp.express({
   endpoint: 'alexa',
