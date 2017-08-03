@@ -8,7 +8,6 @@ test('handlers/index', assert => {
 
   assert.test('next', assert => {
 
-    const req = { log: { info: () => {} } }
     const clock = sinon.useFakeTimers(1506423600000)
 
     nock('https://transit.land')
@@ -61,7 +60,7 @@ test('handlers/index', assert => {
       FROM: 'haddonfield',
       TO: 'lindenwold'
     }])
-      .flatMap(params => unit.next(req, params))
+      .flatMap(params => unit.next(params))
       .collect()
       .tap(results => {
         assert.equal(results[0].operator_name, 'PATCO')
