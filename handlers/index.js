@@ -17,7 +17,7 @@ module.exports.next = function next(req, params) {
       { name: 'trip_headsign', weight: 0.7 }
     ]
   }
-  req.log.info(params)
+  if (req && req.log && req.log.info) req.log.info(params)
 
   return operators(options)(params.ON)
     .flatMap(operator => stops(options)(params.FROM)(operator)
