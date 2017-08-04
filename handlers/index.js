@@ -8,7 +8,10 @@ const operators = require('./operators')
 const stops = require('./stops')
 const schedules = require('./schedules')
 
-module.exports.next = function next(params) {
+module.exports.next = next
+module.exports.alexa = alexa
+
+function next (params) {
 
   const options = {}
   const fuseConfig = {
@@ -37,4 +40,24 @@ module.exports.next = function next(params) {
           stop_name: stop.short_name || stop.name,
           schedules: schedules || [],
         }))))
+}
+
+function alexa (req) {
+
+  const params = {
+    ON: req.slot('ON'),
+    FROM: req.slot('FROM'),
+    TO: req.slot('TO')
+  }
+
+  return next(params)
+    .map(r.compose(
+      obj => `The next trains on ${obj.operator_name} from ${obj.stop_name}` +
+      (params.TO ? ` to ${params.TO}` : ``) +
+      ` are ${obj.schedules}`,
+      r.evolve({
+        schedules: r.compose(
+          r.join(', '),
+          r.map(schedule => `${schedule.origin_departure_time} to ${schedule.trip_headsign}`))
+      })))
 }

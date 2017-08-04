@@ -23,29 +23,13 @@ alexaApp.intent('trainIntent', {
     'TO': 'LITERAL'
   },
   'utterances': [
-    'next train on {-|ON} from {-|FROM}',
-    'next train on {-|ON} from {-|FROM} to {-|TO}'
+    'next train on {patco|ON} from {haddonfield|FROM}',
+    'next train on {patco|ON} from {haddonfield|FROM} to {philadelphia|TO}'
   ]
-}, (req, res) => new Promise((resolve, reject) => handlers.next({
-  ON: req.slot('ON'),
-  FROM: req.slot('FROM'),
-  TO: req.slot('TO')
-})
-  .toCallback((err, results) => {
-    if (err) return res.say(err.message)
-    return r.compose(
-      r.tap(() => resolve()),
-      r.tap(x => res.say(x)),
-      obj => `The next trains on ${obj.operator_name} from ${obj.stop_name}` +
-        (req.slot('TO') ? ` to ${req.slot('TO')}` : ``) +
-        ` are ${obj.schedules}`,
-      r.evolve({
-        schedules: r.compose(
-          r.join(', '),
-          r.map(schedule => `${schedule.origin_departure_time} to ${schedule.trip_headsign}`))
-      }),
-      r.identity)(results)
-  })))
+}, (req, res) => new Promise((resolve, reject) => handlers.alexa(req)
+  .errors(err => res.say(err.message))
+  .tap(response => res.say(response))
+  .done(resolve)))
 
 app.get('/next/:ON/:FROM/:TO', (req, res, next) => handlers.next(req.params)
   .tap(json => res.json(json))

@@ -63,18 +63,93 @@ test('handlers/index', assert => {
       .flatMap(params => unit.next(params))
       .collect()
       .tap(results => {
-        assert.equal(results[0].operator_name, 'PATCO')
-        assert.equal(results[0].stop_name, 'Haddonfield')
+        assert.equal(results[0].operator_name, 'PATCO', 'correct operator')
+        assert.equal(results[0].stop_name, 'Haddonfield', 'correct from stop')
         assert.deepEqual(results[0].schedules[0], {trip_headsign: 'Philadelphia', origin_departure_time: '07:04am'}, 'first trip: westbound')
         assert.deepEqual(results[0].schedules[1], {trip_headsign: 'Philadelphia', origin_departure_time: '07:09am'}, 'second trip: westbound')
-        assert.deepEqual(results[0].schedules[2], {trip_headsign: 'Lindenwold', origin_departure_time: '07:10am'}, 'first trip: eastbound')
+        assert.deepEqual(results[0].schedules[2], {trip_headsign: 'Lindenwold', origin_departure_time: '07:10am'}, 'third trip: eastbound')
 
-        assert.equal(results[1].operator_name, 'PATCO')
-        assert.equal(results[1].stop_name, 'Haddonfield')
+        assert.equal(results[1].operator_name, 'PATCO', 'correct operator')
+        assert.equal(results[1].stop_name, 'Haddonfield', 'correct from stop')
         assert.deepEqual(results[1].schedules[0], {trip_headsign: 'Philadelphia', origin_departure_time: '07:04am'}, 'first trip: westbound')
         assert.deepEqual(results[1].schedules[1], {trip_headsign: 'Philadelphia', origin_departure_time: '07:09am'}, 'second trip: westbound')
 
+        assert.equal(results[2].operator_name, 'PATCO', 'correct operator')
+        assert.equal(results[2].stop_name, 'Haddonfield', 'correct from stop')
         assert.deepEqual(results[2].schedules[0], {trip_headsign: 'Lindenwold', origin_departure_time: '07:10am'}, 'first trip: eastbound')
+      })
+      .collect()
+      .tap(xs => assert.ok(xs.length, 'got responses'))
+      .done(() => {
+        nock.cleanAll()
+        clock.restore()
+        assert.end()
+      })
+  })
+
+  assert.test('alexa', assert => {
+
+    const clock = sinon.useFakeTimers(1506423600000)
+
+    nock('https://transit.land')
+      .get('/api/v1/operators')
+      .query({
+        sort_key: 'id',
+        sort_order: 'asc',
+        offset: 0,
+        per_page: 50,
+      })
+      .thrice()
+      .reply(200, responses[0])
+
+    nock('https://transit.land')
+      .get('/api/v1/stops')
+      .query({
+        offset: 0,
+        per_page: 50,
+        sort_key: 'id',
+        sort_order: 'asc',
+        served_by_vehicle_types: 'rail',
+        served_by: 'o-dr4e-portauthoritytransitcorporation'
+      })
+      .thrice()
+      .reply(200, responses[1])
+
+    nock('https://transit.land')
+      .get('/api/v1/schedule_stop_pairs')
+      .query({
+        sort_key: 'origin_departure_time',
+        sort_order: 'asc',
+        offset: 0,
+        per_page: 50,
+        origin_onestop_id: 's-dr4durps7v-haddonfield',
+        origin_departure_between: '07:00,23:59',
+        date: '2017-09-26',
+      })
+      .thrice()
+      .reply(200, responses[2])
+
+    h([{
+      ON: 'patco',
+      FROM: 'haddonfield'
+    }, {
+      ON: 'patco',
+      FROM: 'haddonfield',
+      TO: 'philadelphia'
+    }, {
+      ON: 'patco',
+      FROM: 'haddonfield',
+      TO: 'lindenwold'
+    }])
+      .map(params =>({
+        slot: prop => params[prop]
+      }))
+      .flatMap(req => unit.alexa(req))
+      .collect()
+      .tap(results => {
+        assert.equal(results[0], 'The next trains on PATCO from Haddonfield are 07:04am to Philadelphia, 07:09am to Philadelphia, 07:10am to Lindenwold', 'first response all from PATCO Haddonfield')
+        assert.equal(results[1], 'The next trains on PATCO from Haddonfield to philadelphia are 07:04am to Philadelphia, 07:09am to Philadelphia', 'second response all from PATCO Haddonfield to Philadelphia')
+        assert.equal(results[2], 'The next trains on PATCO from Haddonfield to lindenwold are 07:10am to Lindenwold', 'first response all from PATCO Haddonfield to Lindenwold')
       })
       .collect()
       .tap(xs => assert.ok(xs.length, 'got responses'))
