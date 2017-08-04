@@ -2,7 +2,7 @@
 const url = require('url')
 const h = require('highland')
 const r = require('ramda')
-const { get, matchAgainst, mutateUrl } = require('./utils')
+const { checkRedis, get, matchAgainst, mutateUrl } = require('./utils')
 
 const baseUrl = url.parse('https://transit.land/api/v1/stops?offset=0&per_page=50&sort_key=id&sort_order=asc&served_by_vehicle_types=rail&served_by=foo', true)
 
@@ -21,6 +21,6 @@ module.exports = function (options) {
     .compact()
     .flatMap(matchAgainst(fuseConfig)(getStops(operator))(stop)('stops'))
 
-  return stop => operator => getStops(r.prop('onestop_id', operator))(stop)(baseUrl)
-    .take(1)
+  return stop => operator => checkRedis('stop')(stop)(getStops(r.prop('onestop_id', operator))(stop)(baseUrl)
+    .take(1))
 }

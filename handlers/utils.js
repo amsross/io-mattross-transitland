@@ -6,6 +6,8 @@ const q = require('request')
 const r = require('ramda')
 const errors = require('restify-errors')
 
+module.exports.checkRedis = type => match => otherwise => otherwise
+
 module.exports.mutateUrl = r.compose(
   url.format,
   r.omit(['search']))

@@ -1,0 +1,51 @@
+version: '2'
+services:
+  redis:
+    image: redis:3.2.10
+    # ports:
+    #   - '6379:6379'
+
+  transitland:
+    build: .
+    environment:
+      - ENV=development
+      - PORT=8080
+      - APP_NAME=matt-transit
+      - REDIS_URL=redis
+
+  app:
+    extends:
+      service: transitland
+    links:
+      - redis
+    ports:
+      - '8080:8080'
+    entrypoint:
+      - npm
+      - start
+
+  test:
+    extends:
+      service: transitland
+    volumes:
+      - ./:/usr/local/io-mattross-transitland
+    links:
+      - redis
+    entrypoint:
+      - npm
+      - test
+
+  test_watch:
+    extends:
+      service: transitland
+    volumes:
+      - ./:/usr/local/io-mattross-transitland
+    links:
+      - redis
+    entrypoint:
+      - node
+      - node_modules/.bin/nodemon
+      - --ignore
+      - node_modules/
+      - -x
+      - "npm run test"

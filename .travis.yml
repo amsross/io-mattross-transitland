@@ -4,5 +4,7 @@ node_js:
   - "6"
   - "node"
 install: npm install
-script: npm test
-sudo: false
+script: npm run docker:test
+sudo: required
+services:
+  - docker
