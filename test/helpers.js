@@ -1,6 +1,5 @@
 'use strict'
 const r = require('ramda')
-const nock = require('nock')
 
 module.exports.nockRepeater = responses => endpoint => query =>
   endpoint

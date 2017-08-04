@@ -7,7 +7,6 @@ test('handlers/index', assert => {
   const unit = require('./index')
 
   assert.test('next', assert => {
-
     const clock = sinon.useFakeTimers(1506423600000)
 
     nock('https://transit.land')
@@ -16,7 +15,7 @@ test('handlers/index', assert => {
         sort_key: 'id',
         sort_order: 'asc',
         offset: 0,
-        per_page: 50,
+        per_page: 50
       })
       .thrice()
       .reply(200, responses[0])
@@ -43,7 +42,7 @@ test('handlers/index', assert => {
         per_page: 50,
         origin_onestop_id: 's-dr4durps7v-haddonfield',
         origin_departure_between: '07:00,23:59',
-        date: '2017-09-26',
+        date: '2017-09-26'
       })
       .thrice()
       .reply(200, responses[2])
@@ -88,7 +87,6 @@ test('handlers/index', assert => {
   })
 
   assert.test('alexa', assert => {
-
     const clock = sinon.useFakeTimers(1506423600000)
 
     nock('https://transit.land')
@@ -97,7 +95,7 @@ test('handlers/index', assert => {
         sort_key: 'id',
         sort_order: 'asc',
         offset: 0,
-        per_page: 50,
+        per_page: 50
       })
       .thrice()
       .reply(200, responses[0])
@@ -124,7 +122,7 @@ test('handlers/index', assert => {
         per_page: 50,
         origin_onestop_id: 's-dr4durps7v-haddonfield',
         origin_departure_between: '07:00,23:59',
-        date: '2017-09-26',
+        date: '2017-09-26'
       })
       .thrice()
       .reply(200, responses[2])
@@ -141,7 +139,7 @@ test('handlers/index', assert => {
       FROM: 'haddonfield',
       TO: 'lindenwold'
     }])
-      .map(params =>({
+      .map(params => ({
         slot: prop => params[prop]
       }))
       .flatMap(req => unit.alexa(req))
@@ -189,43 +187,43 @@ const responses = [{
     'next': 'https://transit.land/api/v1/operators?offset=50&per_page=50&sort_key=id&sort_order=asc'
   }
 }, {
-  "stops": [{
-    "onestop_id": "s-dr4durps7v-haddonfield",
-    "name": "Haddonfield",
-    "timezone": "America/New_York",
-    "parent_stop_onestop_id": null,
-    "operators_serving_stop": [{
-      "operator_name": "Port Authority Transit Corporation",
-      "operator_onestop_id": "o-dr4e-portauthoritytransitcorporation"
+  'stops': [{
+    'onestop_id': 's-dr4durps7v-haddonfield',
+    'name': 'Haddonfield',
+    'timezone': 'America/New_York',
+    'parent_stop_onestop_id': null,
+    'operators_serving_stop': [{
+      'operator_name': 'Port Authority Transit Corporation',
+      'operator_onestop_id': 'o-dr4e-portauthoritytransitcorporation'
     }],
-    "routes_serving_stop": [{
-      "operator_name": "Port Authority Transit Corporation",
-      "operator_onestop_id": "o-dr4e-portauthoritytransitcorporation",
-      "route_name": "PATCO",
-      "route_onestop_id": "r-dr4e-patco"
+    'routes_serving_stop': [{
+      'operator_name': 'Port Authority Transit Corporation',
+      'operator_onestop_id': 'o-dr4e-portauthoritytransitcorporation',
+      'route_name': 'PATCO',
+      'route_onestop_id': 'r-dr4e-patco'
     }]
   }, {
-    "onestop_id": "s-dr4dv44krr-woodcrest",
-    "name": "Woodcrest",
-    "timezone": "America/New_York",
-    "parent_stop_onestop_id": null,
-    "operators_serving_stop": [{
-      "operator_name": "Port Authority Transit Corporation",
-      "operator_onestop_id": "o-dr4e-portauthoritytransitcorporation"
+    'onestop_id': 's-dr4dv44krr-woodcrest',
+    'name': 'Woodcrest',
+    'timezone': 'America/New_York',
+    'parent_stop_onestop_id': null,
+    'operators_serving_stop': [{
+      'operator_name': 'Port Authority Transit Corporation',
+      'operator_onestop_id': 'o-dr4e-portauthoritytransitcorporation'
     }],
-    "routes_serving_stop": [{
-      "operator_name": "Port Authority Transit Corporation",
-      "operator_onestop_id": "o-dr4e-portauthoritytransitcorporation",
-      "route_name": "PATCO",
-      "route_onestop_id": "r-dr4e-patco"
+    'routes_serving_stop': [{
+      'operator_name': 'Port Authority Transit Corporation',
+      'operator_onestop_id': 'o-dr4e-portauthoritytransitcorporation',
+      'route_name': 'PATCO',
+      'route_onestop_id': 'r-dr4e-patco'
     }]
   }],
-  "meta": {
-    "sort_key": "id",
-    "sort_order": "asc",
-    "offset": 0,
-    "per_page": 50,
-    "next": "https://transit.land/api/v1/stops?offset=50&per_page=50&served_by=o-dr4e-portauthoritytransitcorporation&served_by_vehicle_types=rail&sort_key=id&sort_order=asc"
+  'meta': {
+    'sort_key': 'id',
+    'sort_order': 'asc',
+    'offset': 0,
+    'per_page': 50,
+    'next': 'https://transit.land/api/v1/stops?offset=50&per_page=50&served_by=o-dr4e-portauthoritytransitcorporation&served_by_vehicle_types=rail&sort_key=id&sort_order=asc'
   }
 }, {
   'schedule_stop_pairs': [{
@@ -236,7 +234,7 @@ const responses = [{
     'origin_timezone': 'America/New_York',
     'trip_headsign': 'Philadelphia',
     'origin_departure_time': '07:04:00',
-    'destination_arrival_time': '07:06:00',
+    'destination_arrival_time': '07:06:00'
   }, {
     'origin_onestop_id': 's-dr4durps7v-haddonfield',
     'destination_onestop_id': 's-dr4eh2bg8u-westmont',
@@ -245,7 +243,7 @@ const responses = [{
     'origin_timezone': 'America/New_York',
     'trip_headsign': 'Philadelphia',
     'origin_departure_time': '07:09:00',
-    'destination_arrival_time': '07:11:00',
+    'destination_arrival_time': '07:11:00'
   }, {
     'origin_onestop_id': 's-dr4durps7v-haddonfield',
     'destination_onestop_id': 's-dr4dv44krr-woodcrest',
@@ -255,7 +253,7 @@ const responses = [{
     'destination_timezone': 'America/New_York',
     'trip_headsign': 'Lindenwold',
     'origin_departure_time': '07:10:00',
-    'destination_arrival_time': '07:13:00',
+    'destination_arrival_time': '07:13:00'
   }],
   'meta': {
     'sort_key': 'origin_departure_time',

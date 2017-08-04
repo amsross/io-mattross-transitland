@@ -18,13 +18,13 @@ test('handlers/schedules', assert => {
     origin_onestop_id: 's-dr4durps7v-haddonfield',
     origin_departure_between: '07:00,23:59',
     date: '2017-09-26'
- }
+  }
 
   const nockGet = () => nock('https://transit.land')
     .get('/api/v1/schedule_stop_pairs')
 
   r.map(offset => nockRepeater(responses)(nockGet())(r.evolve({
-    offset: r.always(offset),
+    offset: r.always(offset)
   })(params)))([
     0, 50,
     0, 50,
@@ -40,7 +40,7 @@ test('handlers/schedules', assert => {
     }, {
       trip_headsign: 'Philadelphia',
       origin_departure_time: '07:04am'
-    }, 'direct match, 1st page'],
+    }, 'direct match, 1st page']
   ])
     .map(schedule => unit({})(schedule[0])
       .errors((err, push) => push(null, err))
@@ -64,7 +64,7 @@ const responses = [{
     'origin_timezone': 'America/New_York',
     'trip_headsign': 'Philadelphia',
     'origin_departure_time': '07:04:00',
-    'destination_arrival_time': '07:06:00',
+    'destination_arrival_time': '07:06:00'
   }, {
     'origin_onestop_id': 's-dr4durps7v-haddonfield',
     'destination_onestop_id': 's-dr4eh2bg8u-westmont',
@@ -73,7 +73,7 @@ const responses = [{
     'origin_timezone': 'America/New_York',
     'trip_headsign': 'Philadelphia',
     'origin_departure_time': '07:09:00',
-    'destination_arrival_time': '07:11:00',
+    'destination_arrival_time': '07:11:00'
   }, {
     'origin_onestop_id': 's-dr4durps7v-haddonfield',
     'destination_onestop_id': 's-dr4dv44krr-woodcrest',
@@ -83,7 +83,7 @@ const responses = [{
     'destination_timezone': 'America/New_York',
     'trip_headsign': 'Lindenwold',
     'origin_departure_time': '07:10:00',
-    'destination_arrival_time': '07:13:00',
+    'destination_arrival_time': '07:13:00'
   }],
   'meta': {
     'sort_key': 'origin_departure_time',

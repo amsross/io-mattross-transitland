@@ -3,19 +3,11 @@ const url = require('url')
 const h = require('highland')
 const m = require('moment-timezone')
 const r = require('ramda')
-const { get, matchAgainst, mutateUrl } = require('./utils')
+const { get, mutateUrl } = require('./utils')
 
 const baseUrl = url.parse('https://transit.land/api/v1/schedule_stop_pairs?offset=0&per_page=50&sort_key=origin_departure_time&sort_order=asc&origin_onestop_id=foo&origin_departure_between=foo&date=foo', true)
 
-module.exports = function(options) {
-
-  const fuseConfig = {
-    threshold: 0.3,
-    keys: [
-      { name: 'name', weight: 0.7 }
-    ]
-  }
-
+module.exports = function (options) {
   const getSchedules = stop => url => h.of(url)
     .map(r.compose(
       r.set(r.lensPath(['query', 'origin_onestop_id']), r.prop('onestop_id')(stop)),
@@ -40,7 +32,7 @@ module.exports = function(options) {
       'origin_departure_time': schedule => {
         const time = schedule.origin_departure_time
         const now = m().tz(r.prop('origin_timezone', schedule))
-        return m(now.format('YYYY-MM-DD ') + time).format('hh:mma');
+        return m(now.format('YYYY-MM-DD ') + time).format('hh:mma')
       }
     }))
 }

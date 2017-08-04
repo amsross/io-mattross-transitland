@@ -6,8 +6,7 @@ const { get, matchAgainst, mutateUrl } = require('./utils')
 
 const baseUrl = url.parse('https://transit.land/api/v1/stops?offset=0&per_page=50&sort_key=id&sort_order=asc&served_by_vehicle_types=rail&served_by=foo', true)
 
-module.exports = function(options) {
-
+module.exports = function (options) {
   const fuseConfig = {
     threshold: 0.3,
     keys: [
@@ -16,7 +15,7 @@ module.exports = function(options) {
   }
 
   const getStops = operator => stop => url => h.of(url)
-    .map(r.set(r.compose(r.lensProp("query"), r.lensProp("served_by")), operator))
+    .map(r.set(r.compose(r.lensProp('query'), r.lensProp('served_by')), operator))
     .map(mutateUrl)
     .flatMap(get)
     .compact()

@@ -1,21 +1,21 @@
 'use strict'
-const r = require('ramda')
 const express = require('express')
-const alexa = require('alexa-app')
+const Alexa = require('alexa-app')
+Alexa.App = Alexa.app // this is stupid
 const handlers = require('./handlers')
 
 const app = express()
-const alexaApp = new alexa.app(process.env.APP_NAME || 'alexa');
+const alexaApp = new Alexa.App(process.env.APP_NAME || 'alexa')
 
 app.set('view engine', 'ejs')
 alexaApp.express({
   endpoint: 'alexa',
   expressApp: app,
-  checkCert: process.env.ENV === 'production' ? true : false,
-  debug: process.env.ENV === 'production' ? false : true,
+  checkCert: process.env.ENV === 'production',
+  debug: !(process.env.ENV === 'production')
 })
 
-alexaApp.launch((req, res) => response.say('Try asking about the next train on an operator from a station.'))
+alexaApp.launch((req, res) => res.say('Try asking about the next train on an operator from a station.'))
 alexaApp.intent('trainIntent', {
   'slots': {
     'ON': 'LITERAL',
