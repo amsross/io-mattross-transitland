@@ -23,8 +23,10 @@ alexaApp.intent('trainIntent', {
     'TO': 'LITERAL'
   },
   'utterances': [
-    'next train on {patco|ON} from {haddonfield|FROM}',
-    'next train on {patco|ON} from {haddonfield|FROM} to {philadelphia|TO}'
+    'when {is|are} the next {train|trains} on {patco|ON} from {haddonfield|FROM}',
+    'when {is|are} the next {train|trains} on {patco|ON} from {haddonfield|FROM} to {philadelphia|TO}',
+    'next {train|trains} on {patco|ON} from {haddonfield|FROM}',
+    'next {train|trains} on {patco|ON} from {haddonfield|FROM} to {philadelphia|TO}'
   ]
 }, (req, res) => new Promise((resolve, reject) => handlers.alexa(req)
   .errors(err => res.say(err.message))
