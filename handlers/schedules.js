@@ -5,7 +5,7 @@ const m = require('moment-timezone')
 const r = require('ramda')
 const { get, mutateUrl } = require('./utils')
 
-const baseUrl = url.parse('https://transit.land/api/v1/schedule_stop_pairs?offset=0&per_page=50&sort_key=origin_departure_time&sort_order=asc&origin_onestop_id=foo&origin_departure_between=foo&date=foo', true)
+const baseUrl = url.parse('https://transit.land/api/v1/schedule_stop_pairs?offset=0&per_page=50&sort_key=origin_departure_time&sort_order=asc&origin_onestop_id=foo&origin_departure_between=foo&service_from_date=foo', true)
 
 module.exports = function (options) {
   const getSchedules = stop => url => h.of(url)
@@ -16,7 +16,7 @@ module.exports = function (options) {
         const then = now.clone().endOf('d')
         return `${now.format('HH:mm')},${then.format('HH:mm')}`
       }),
-      r.over(r.lensPath(['query', 'date']), () => {
+      r.over(r.lensPath(['query', 'service_from_date']), () => {
         return m().tz(r.prop('timezone', stop)).format('YYYY-MM-DD')
       })
     ))
