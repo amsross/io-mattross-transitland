@@ -1,4 +1,5 @@
 'use strict'
+require('newrelic')
 const express = require('express')
 const Alexa = require('alexa-app')
 Alexa.App = Alexa.app // this is stupid
