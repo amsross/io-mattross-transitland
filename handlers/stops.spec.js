@@ -10,10 +10,9 @@ test('handlers/stops', assert => {
 
   const params = {
     offset: 0,
-    per_page: 50,
+    per_page: 100,
     sort_key: 'id',
     sort_order: 'asc',
-    served_by_vehicle_types: 'rail',
     served_by: 'o-9q9-caltrain'
   }
 
@@ -23,11 +22,11 @@ test('handlers/stops', assert => {
   r.map(offset => nockRepeater(responses)(nockGet())(r.evolve({
     offset: r.always(offset)
   })(params)))([
-    0, 50,
-    0, 50,
-    0, 50, 100,
-    0, 50,
-    0, 50, 100
+    0, 100,
+    0, 100,
+    0, 100, 200,
+    0, 100,
+    0, 100, 200
   ])
 
   h([
@@ -114,9 +113,8 @@ const responses = [{
     'sort_key': 'id',
     'sort_order': 'asc',
     'offset': 0,
-    'per_page': 50,
-    'served_by_vehicle_types': 'rail',
+    'per_page': 100,
     'served_by': 'o-9q9-caltrain',
-    'next': 'https://transit.land/api/v1/stops?offset=50&per_page=3&served_by=o-9q9-caltrain&served_by_vehicle_types=rail&sort_key=id&sort_order=asc'
+    'next': 'https://transit.land/api/v1/stops?offset=100&per_page=100&served_by=o-9q9-caltrain&sort_key=id&sort_order=asc'
   }
 }]

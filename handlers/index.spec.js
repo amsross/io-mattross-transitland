@@ -25,10 +25,9 @@ test('handlers/index', assert => {
       .get('/api/v1/stops')
       .query({
         offset: 0,
-        per_page: 50,
+        per_page: 100,
         sort_key: 'id',
         sort_order: 'asc',
-        served_by_vehicle_types: 'rail',
         served_by: 'o-dr4e-portauthoritytransitcorporation'
       })
       .thrice()
@@ -108,10 +107,9 @@ test('handlers/index', assert => {
       .get('/api/v1/stops')
       .query({
         offset: 0,
-        per_page: 50,
+        per_page: 100,
         sort_key: 'id',
         sort_order: 'asc',
-        served_by_vehicle_types: 'rail',
         served_by: 'o-dr4e-portauthoritytransitcorporation'
       })
       .thrice()
@@ -227,8 +225,8 @@ const responses = [{
     'sort_key': 'id',
     'sort_order': 'asc',
     'offset': 0,
-    'per_page': 50,
-    'next': 'https://transit.land/api/v1/stops?offset=50&per_page=50&served_by=o-dr4e-portauthoritytransitcorporation&served_by_vehicle_types=rail&sort_key=id&sort_order=asc'
+    'per_page': 100,
+    'next': 'https://transit.land/api/v1/stops?offset=100&per_page=100&served_by=o-dr4e-portauthoritytransitcorporation&sort_key=id&sort_order=asc'
   }
 }, {
   'schedule_stop_pairs': [{
