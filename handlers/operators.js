@@ -1,7 +1,7 @@
 'use strict'
 const url = require('url')
 const h = require('highland')
-const { checkRedis, get, matchAgainst, mutateUrl } = require('./utils')
+const { get, matchAgainst, mutateUrl } = require('./utils')
 
 const baseUrl = url.parse('https://transit.land/api/v1/operators?offset=0&per_page=50&sort_key=id&sort_order=asc', true)
 
@@ -20,6 +20,6 @@ module.exports = function (options) {
     .compact()
     .flatMap(matchAgainst(fuseConfig)(getOperators)(operator)('operators'))
 
-  return operator => checkRedis('operator')(operator)(getOperators(operator)(baseUrl)
-    .take(1))
+  return operator => getOperators(operator)(baseUrl)
+    .take(1)
 }

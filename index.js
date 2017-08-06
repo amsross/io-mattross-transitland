@@ -2,7 +2,10 @@
 const express = require('express')
 const Alexa = require('alexa-app')
 Alexa.App = Alexa.app // this is stupid
-const handlers = require('./handlers')
+const Redis = require('ioredis')
+
+const redis = new Redis(process.env.REDIS_URL || 'localhost:6379')
+const handlers = require('./handlers')(redis)
 
 const app = express()
 const alexaApp = new Alexa.App(process.env.APP_NAME || 'alexa')

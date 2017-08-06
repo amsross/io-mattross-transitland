@@ -2,11 +2,12 @@ const h = require('highland')
 const test = require('tape')
 const nock = require('nock')
 const sinon = require('sinon')
+const Redis = require('ioredis')
 
 test('handlers/index', assert => {
-  const unit = require('./index')
-
   assert.test('next', assert => {
+    const redis = new Redis(process.env.REDIS_URL || 'localhost:6379')
+    const unit = require('./index')(redis)
     const clock = sinon.useFakeTimers(1506423600000)
 
     nock('https://transit.land')
@@ -82,11 +83,14 @@ test('handlers/index', assert => {
       .done(() => {
         nock.cleanAll()
         clock.restore()
+        redis.disconnect()
         assert.end()
       })
   })
 
   assert.test('alexa', assert => {
+    const redis = new Redis(process.env.REDIS_URL || 'localhost:6379')
+    const unit = require('./index')(redis)
     const clock = sinon.useFakeTimers(1506423600000)
 
     nock('https://transit.land')
@@ -154,6 +158,7 @@ test('handlers/index', assert => {
       .done(() => {
         nock.cleanAll()
         clock.restore()
+        redis.disconnect()
         assert.end()
       })
   })

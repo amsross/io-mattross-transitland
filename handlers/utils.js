@@ -5,8 +5,19 @@ const h = require('highland')
 const q = require('request')
 const r = require('ramda')
 const errors = require('restify-errors')
+const expire = 1 * 60 * 24 * 7
 
-module.exports.checkRedis = type => match => otherwise => otherwise
+module.exports.checkRedis = redis => type => match => otherwise => {
+  const key = `${type}:${match}`.replace(/ /g, '')
+  return h.wrapCallback(redis.get.bind(redis))(key)
+    .compact()
+    .map(JSON.parse)
+    .otherwise(otherwise)
+    .compact()
+    .tap(r.compose(
+      r.tap(result => redis.set(key, result, 'EX', expire)),
+      JSON.stringify))
+}
 
 module.exports.mutateUrl = r.compose(
   url.format,
