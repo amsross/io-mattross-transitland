@@ -8,7 +8,7 @@ const errors = require('restify-errors')
 const expire = 1 * 60 * 24 * 7
 
 module.exports.checkRedis = redis => type => match => otherwise => {
-  const key = `${type}:${match}`.replace(/ /g, '')
+  const key = `transitland:${type}:${match}`.replace(/ /g, '')
   return h.wrapCallback(redis.get.bind(redis))(key)
     .compact()
     .map(JSON.parse)

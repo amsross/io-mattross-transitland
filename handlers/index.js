@@ -23,7 +23,7 @@ module.exports = redis => {
     }
 
     const getOperator = on => checkRedis(redis)('operator')(on)(operators(options)(on))
-    const getStop = on => from => checkRedis(redis)('stop')(from)(stops(options)(from)(on))
+    const getStop = on => from => checkRedis(redis)(r.prop('onestop_id')(on))(from)(stops(options)(from)(on))
 
     return getOperator(params.ON)
       .flatMap(operator => getStop(operator)(params.FROM)
