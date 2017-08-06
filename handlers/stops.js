@@ -15,7 +15,9 @@ module.exports = function (options) {
   }
 
   const getStops = operator => stop => url => h.of(url)
-    .map(r.set(r.compose(r.lensProp('query'), r.lensProp('served_by')), operator))
+    .map(r.compose(
+      r.over(r.lensProp('query'), r.reject(r.isNil)),
+      r.set(r.lensPath(['query', 'served_by']), operator)))
     .map(mutateUrl)
     .flatMap(get)
     .compact()

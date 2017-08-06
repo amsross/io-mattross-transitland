@@ -10,6 +10,7 @@ const baseUrl = url.parse('https://transit.land/api/v1/schedule_stop_pairs?offse
 module.exports = function (options) {
   const getSchedules = stop => url => h.of(url)
     .map(r.compose(
+      r.over(r.lensProp('query'), r.reject(r.isNil)),
       r.set(r.lensPath(['query', 'origin_onestop_id']), r.prop('onestop_id')(stop)),
       r.over(r.lensPath(['query', 'origin_departure_between']), () => {
         const now = m().tz(r.prop('timezone', stop))
