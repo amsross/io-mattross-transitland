@@ -5,7 +5,7 @@ const h = require('highland')
 const q = require('request')
 const r = require('ramda')
 const errors = require('restify-errors')
-const expire = 1 * 60 * 24 * 7
+const expire = 1 * 60 * 60 * 24 * 7 * 52
 
 module.exports.checkRedis = redis => type => match => otherwise => {
   const key = `transitland:${type}:${match}`.replace(/ /g, '')
