@@ -1,5 +1,6 @@
 'use strict'
 const F = require('fuse.js')
+const h = require('highland')
 const m = require('moment-timezone')
 const r = require('ramda')
 const operators = require('./operators')
@@ -25,7 +26,13 @@ module.exports = redis => {
     const getOperator = on => checkRedis(redis)('operator')(on)(operators(options)(on))
     const getStop = on => from => checkRedis(redis)(r.prop('onestop_id')(on))(from)(stops(options)(from)(on))
 
-    return getOperator(params.ON)
+    return h.of(params)
+      .map(params => {
+        if (!params.ON) throw new Error('An operator is required.')
+        if (!params.FROM) throw new Error('An origin station is required.')
+        return params
+      })
+      .flatMap(params => getOperator(params.ON))
       .flatMap(operator => getStop(operator)(params.FROM)
         .flatMap(stop => schedules(options)(stop)
           .collect()
