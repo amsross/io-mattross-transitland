@@ -1,5 +1,5 @@
 'use strict'
-require('newrelic')
+if (process.env.ENV === 'production') require('newrelic')
 const express = require('express')
 const Alexa = require('alexa-app')
 Alexa.App = Alexa.app // this is stupid
@@ -28,9 +28,9 @@ alexaApp.intent('trainIntent', {
   },
   'utterances': [
     'when {is|are} the next {train|trains} on {patco|ON} from {haddonfield|FROM}',
-    'when {is|are} the next {train|trains} on {patco|ON} from {haddonfield|FROM} to {philadelphia|TO}',
+    'when {is|are} the next {train|trains} on {redwood transit system|ON} from {fourteenth at b street|FROM} to {bayshore mall|TO}',
     'next {train|trains} on {patco|ON} from {haddonfield|FROM}',
-    'next {train|trains} on {patco|ON} from {haddonfield|FROM} to {philadelphia|TO}'
+    'next {train|trains} on {redwood transit system|ON} from {fourteenth at b street|FROM} to {bayshore mall|TO}'
   ]
 }, (req, res) => new Promise((resolve, reject) => handlers.alexa(req)
   .errors(err => res.say(err.message))
