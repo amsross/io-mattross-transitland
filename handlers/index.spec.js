@@ -28,7 +28,8 @@ test('handlers/index', assert => {
         per_page: 100,
         sort_key: 'id',
         sort_order: 'asc',
-        served_by: 'o-dr4e-portauthoritytransitcorporation'
+        served_by: 'o-dr4e-portauthoritytransitcorporation',
+        country: 'us,ca'
       })
       .thrice()
       .reply(200, responses[1])
@@ -110,7 +111,8 @@ test('handlers/index', assert => {
         per_page: 100,
         sort_key: 'id',
         sort_order: 'asc',
-        served_by: 'o-dr4e-portauthoritytransitcorporation'
+        served_by: 'o-dr4e-portauthoritytransitcorporation',
+        country: 'us,ca'
       })
       .thrice()
       .reply(200, responses[1])
@@ -226,7 +228,8 @@ const responses = [{
     'sort_order': 'asc',
     'offset': 0,
     'per_page': 100,
-    'next': 'https://transit.land/api/v1/stops?offset=100&per_page=100&served_by=o-dr4e-portauthoritytransitcorporation&sort_key=id&sort_order=asc'
+    'country': 'us,ca',
+    'next': 'https://transit.land/api/v1/stops?country=us,ca&offset=100&per_page=100&served_by=o-dr4e-portauthoritytransitcorporation&sort_key=id&sort_order=asc'
   }
 }, {
   'schedule_stop_pairs': [{
