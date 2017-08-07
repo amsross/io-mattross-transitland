@@ -7,7 +7,7 @@ const baseUrl = url.parse('https://transit.land/api/v1/operators?offset=0&per_pa
 
 module.exports = function (options) {
   const fuseConfig = {
-    threshold: 0.3,
+    threshold: 0.2,
     keys: [
       { name: 'short_name', weight: 0.7 },
       { name: 'name', weight: 0.3 }
