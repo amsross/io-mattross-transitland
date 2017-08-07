@@ -20,7 +20,18 @@ alexaApp.express({
 })
 
 alexaApp.launch((req, res) => res.say('Try asking about the next train on an operator from a station.'))
-alexaApp.intent('trainIntent', {
+
+alexaApp.intent('AMAZON.HelpIntent', {
+  'slots': {},
+  'utterances': [
+    'how {do I|to} find a train schedule',
+    '{|for} help'
+  ]
+}, (req, res) => res
+  .say('You can ask \'what is the next train on some operator from a starting station. You can also filter down to only trips to a final station\'')
+  .shouldEndSession(true))
+
+alexaApp.intent('scheduleIntent', {
   'slots': {
     'ON': 'LITERAL',
     'FROM': 'LITERAL',
