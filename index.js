@@ -27,9 +27,7 @@ alexaApp.intent('trainIntent', {
     'TO': 'LITERAL'
   },
   'utterances': [
-    'when {is|are} the next {train|trains} on {patco|ON} from {haddonfield|FROM}',
     'when {is|are} the next {train|trains} on {redwood transit system|ON} from {fourteenth at b street|FROM} to {bayshore mall|TO}',
-    'next {train|trains} on {patco|ON} from {haddonfield|FROM}',
     'next {train|trains} on {redwood transit system|ON} from {fourteenth at b street|FROM} to {bayshore mall|TO}',
     'for the next {train|trains} on {redwood transit system|ON} from {fourteenth at b street|FROM} to {bayshore mall|TO}'
   ]
