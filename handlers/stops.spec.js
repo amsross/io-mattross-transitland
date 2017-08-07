@@ -8,6 +8,11 @@ const { nockRepeater } = require('../test/helpers')
 test('handlers/stops', assert => {
   const unit = require('./stops')
 
+  const options = {
+    log: {
+      info: () => {}
+    }
+  }
   const params = {
     offset: 0,
     per_page: 100,
@@ -33,7 +38,7 @@ test('handlers/stops', assert => {
   h([
     ['san jose', {onestop_id: 's-9q9k659e3r-sanjosediridoncaltrain\u003c70261'}, 'direct match, 1st page']
   ])
-    .map(stop => unit({})(stop[0])({onestop_id: 'o-9q9-caltrain'})
+    .map(stop => unit(options)(stop[0])({onestop_id: 'o-9q9-caltrain'})
       .errors((err, push) => push(null, err))
       .tap(x => assert.ok(r.whereEq(stop[1])(x), stop[2])))
     .merge()

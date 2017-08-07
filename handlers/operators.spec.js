@@ -8,6 +8,11 @@ const { nockRepeater } = require('../test/helpers')
 test('handlers/operators', assert => {
   const unit = require('./operators')
 
+  const options = {
+    log: {
+      info: () => {}
+    }
+  }
   const params = {
     offset: 0,
     per_page: 50,
@@ -35,7 +40,7 @@ test('handlers/operators', assert => {
     ['PATH', {onestop_id: 'o-dr5r-path'}, 'direct match, 3rd page'],
     ['qwerty123456', {message: 'match for qwerty123456 was not found in operators'}, 'should 404']
   ])
-    .map(operator => unit({})(operator[0])
+    .map(operator => unit(options)(operator[0])
       .errors((err, push) => push(null, err))
       .tap(x => assert.ok(r.whereEq(operator[1])(x), operator[2])))
     .merge()

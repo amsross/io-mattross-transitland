@@ -1,6 +1,7 @@
 'use strict'
 const url = require('url')
 const h = require('highland')
+const r = require('ramda')
 const { get, matchAgainst, mutateUrl } = require('./utils')
 
 const baseUrl = url.parse('https://transit.land/api/v1/operators?offset=0&per_page=50&sort_key=id&sort_order=asc', true)
@@ -22,4 +23,8 @@ module.exports = function (options) {
 
   return operator => getOperators(operator)(baseUrl)
     .take(1)
+    .tap(r.compose(
+      result => options.log.info(result, `found operator for term '${operator}'`),
+      r.objOf('operator'),
+      r.pickBy(r.is(String))))
 }

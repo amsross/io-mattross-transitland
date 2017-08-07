@@ -7,6 +7,8 @@ const operators = require('./operators')
 const stops = require('./stops')
 const schedules = require('./schedules')
 const { checkRedis } = require('./utils')
+const bunyan = require('bunyan')
+const log = bunyan.createLogger({name: process.env.APP_NAME || 'app'})
 
 module.exports = redis => {
   return {
@@ -15,7 +17,11 @@ module.exports = redis => {
   }
 
   function next (params) {
-    const options = {}
+    log.info(params, 'received params')
+
+    const options = {
+      log: log
+    }
     const fuseConfig = {
       threshold: 0.3,
       keys: [

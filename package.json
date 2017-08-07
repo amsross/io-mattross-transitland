@@ -13,11 +13,16 @@
     "docker:test_watch": "docker-compose down && docker-compose run test_watch",
     "start": "node index.js"
   },
-  "keywords": ["alexa", "transitland", "trains"],
+  "keywords": [
+    "alexa",
+    "transitland",
+    "trains"
+  ],
   "author": "Matt Ross <matt@mattross.io>",
   "license": "AGPL-3.0+",
   "dependencies": {
     "alexa-app": "^4.0.1",
+    "bunyan": "^1.8.12",
     "ejs": "^2.5.7",
     "express": "^4.15.3",
     "fuse.js": "^3.0.5",

@@ -25,4 +25,9 @@ module.exports = function (options) {
 
   return stop => operator => getStops(r.prop('onestop_id', operator))(stop)(baseUrl)
     .take(1)
+    .tap(r.compose(
+      result => options.log.info(result, `found stop for term '${stop}'`),
+      r.merge({'operator': r.pickBy(r.is(String))(operator)}),
+      r.objOf('stop'),
+      r.pickBy(r.is(String))))
 }
