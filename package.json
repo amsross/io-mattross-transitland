@@ -26,7 +26,8 @@
     "newrelic": "^2.0.2",
     "ramda": "^0.24.1",
     "request": "^2.81.0",
-    "restify-errors": "^4.3.0"
+    "restify-errors": "^4.3.0",
+    "words-to-numbers": "^1.2.1"
   },
   "devDependencies": {
     "nock": "^9.0.14",

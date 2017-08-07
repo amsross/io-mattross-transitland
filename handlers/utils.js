@@ -4,6 +4,7 @@ const F = require('fuse.js')
 const h = require('highland')
 const q = require('request')
 const r = require('ramda')
+const { wordsToNumbers } = require('words-to-numbers')
 const errors = require('restify-errors')
 const expire = 1 * 60 * 60 * 24 * 7 * 52
 
@@ -15,7 +16,7 @@ module.exports.checkRedis = redis => type => match => otherwise => {
     .otherwise(otherwise)
     .compact()
     .tap(r.compose(
-      r.tap(result => redis.set(key, result, 'EX', expire)),
+      result => redis.set(key, result, 'EX', expire),
       JSON.stringify))
 }
 
@@ -31,9 +32,10 @@ module.exports.get = url => {
 module.exports.matchAgainst = fuseConfig => recurse => match => prop => response => {
   return h.of(response)
     .map(r.prop(prop))
+    .map(r.map(r.reject(r.isNil)))
     .flatMap(r.pipe(
       r.construct(F)(r.__, fuseConfig),
-      r.invoker(1, 'search')(match)))
+      r.invoker(1, 'search')('' + (wordsToNumbers(match) || match))))
     .otherwise(() => {
       if (!response.meta.next) return h.fromError(new errors.NotFoundError(`match for ${match} was not found in ${prop}`))
       return recurse(match)(url.parse(response.meta.next, true))
