@@ -1,7 +1,8 @@
 {
   "name": "io-mattross-transitland",
   "version": "1.0.0",
-  "description": "",
+  "description": "Use the transit.land API to fuzzy search upcoming train departure times.",
+  "repository": "https://github.com/amsross/io-mattross-transitland",
   "main": "index.js",
   "scripts": {
     "test": "npm run test:lint && npm run test:tape",
@@ -12,8 +13,8 @@
     "docker:test_watch": "docker-compose down && docker-compose run test_watch",
     "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["alexa", "transitland", "trains"],
+  "author": "Matt Ross <matt@mattross.io>",
   "license": "AGPL-3.0+",
   "dependencies": {
     "alexa-app": "^4.0.1",
