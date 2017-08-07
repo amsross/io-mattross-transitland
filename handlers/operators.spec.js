@@ -17,7 +17,8 @@ test('handlers/operators', assert => {
     offset: 0,
     per_page: 50,
     sort_key: 'id',
-    sort_order: 'asc'
+    sort_order: 'asc',
+    country: 'us,ca,gb'
   }
 
   const nockGet = () => nock('https://transit.land')
@@ -69,7 +70,8 @@ const responses = [{
     'sort_order': 'asc',
     'offset': 0,
     'per_page': 50,
-    'next': 'https://transit.land/api/v1/operators?offset=50&per_page=50&sort_key=id&sort_order=asc'
+    'country': 'us,ca,gb',
+    'next': 'https://transit.land/api/v1/operators?country=us,ca,gb&offset=50&per_page=50&sort_key=id&sort_order=asc'
   }
 }, {
   'operators': [{
@@ -94,8 +96,9 @@ const responses = [{
     'sort_order': 'asc',
     'offset': 50,
     'per_page': 50,
-    'prev': 'https://transit.land/api/v1/operators?offset=0&per_page=50&sort_key=id&sort_order=asc',
-    'next': 'https://transit.land/api/v1/operators?offset=100&per_page=50&sort_key=id&sort_order=asc'
+    'country': 'us,ca,gb',
+    'prev': 'https://transit.land/api/v1/operators?country=us,ca,gb&offset=0&per_page=50&sort_key=id&sort_order=asc',
+    'next': 'https://transit.land/api/v1/operators?country=us,ca,gb&offset=100&per_page=50&sort_key=id&sort_order=asc'
   }
 }, {
   'operators': [{
@@ -126,6 +129,7 @@ const responses = [{
     'sort_order': 'asc',
     'offset': 100,
     'per_page': 50,
-    'prev': 'https://transit.land/api/v1/operators?offset=50&per_page=50&sort_key=id&sort_order=asc'
+    'country': 'us,ca,gb',
+    'prev': 'https://transit.land/api/v1/operators?country=us,ca,gb&offset=50&per_page=50&sort_key=id&sort_order=asc'
   }
 }]

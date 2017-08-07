@@ -19,7 +19,7 @@ test('handlers/stops', assert => {
     sort_key: 'id',
     sort_order: 'asc',
     served_by: 'o-9q9-caltrain',
-    country: 'us,ca'
+    country: 'us,ca,gb'
   }
 
   const nockGet = () => nock('https://transit.land')
@@ -121,7 +121,7 @@ const responses = [{
     'offset': 0,
     'per_page': 100,
     'served_by': 'o-9q9-caltrain',
-    'country': 'us,ca',
-    'next': 'https://transit.land/api/v1/stops?country=us,ca&offset=100&per_page=100&served_by=o-9q9-caltrain&sort_key=id&sort_order=asc'
+    'country': 'us,ca,gb',
+    'next': 'https://transit.land/api/v1/stops?country=us,ca,gb&offset=100&per_page=100&served_by=o-9q9-caltrain&sort_key=id&sort_order=asc'
   }
 }]

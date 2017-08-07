@@ -4,7 +4,7 @@ const h = require('highland')
 const r = require('ramda')
 const { get, matchAgainst, mutateUrl } = require('./utils')
 
-const baseUrl = url.parse('https://transit.land/api/v1/operators?offset=0&per_page=50&sort_key=id&sort_order=asc', true)
+const baseUrl = url.parse('https://transit.land/api/v1/operators?country=us,ca,gb&offset=0&per_page=50&sort_key=id&sort_order=asc', true)
 
 module.exports = function (options) {
   const fuseConfig = {
