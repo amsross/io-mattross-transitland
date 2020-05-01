@@ -11,7 +11,9 @@
     "docker:start": "docker-compose down && docker-compose up app",
     "docker:test": "docker-compose down && docker-compose run test",
     "docker:test_watch": "docker-compose down && docker-compose run test_watch",
-    "start": "node index.js"
+    "start": "node index.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "keywords": [
     "alexa",
@@ -33,7 +35,8 @@
     "ramda": "^0.24.1",
     "request": "^2.81.0",
     "restify-errors": "^4.3.0",
-    "words-to-numbers": "^1.2.1"
+    "words-to-numbers": "^1.2.1",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "nock": "^9.0.14",
@@ -42,5 +45,6 @@
     "standard": "^10.0.2",
     "tap-spec": "^4.1.1",
     "tape": "^4.7.0"
-  }
+  },
+  "snyk": true
 }
