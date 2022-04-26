@@ -23,7 +23,7 @@
   "dependencies": {
     "alexa-app": "^4.0.1",
     "bunyan": "^1.8.13",
-    "ejs": "^2.5.7",
+    "ejs": "^3.1.7",
     "express": "^4.15.3",
     "fuse.js": "^3.0.5",
     "highland": "^2.11.1",
